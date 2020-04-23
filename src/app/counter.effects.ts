@@ -1,6 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { increment, displayError, displayWarning, displaySuccess } from "./counter.actions";
+import {
+  increment,
+  displayError,
+  displayWarning,
+  displaySuccess,
+  decrement,
+  reset
+} from "./counter.actions";
 import { ToastrService } from "ngx-toastr";
 import { map, tap } from "rxjs/operators";
 
@@ -11,7 +18,7 @@ export class CounterEffects {
       this.actions$.pipe(
         ofType(displaySuccess),
         tap(action => {
-          this.toastr.success(action.title, action.description);
+          this.toastr.success(action.description, action.title);
         })
       ),
     { dispatch: false }
@@ -22,7 +29,7 @@ export class CounterEffects {
       this.actions$.pipe(
         ofType(displayWarning),
         tap(action => {
-          this.toastr.warning(action.title, action.description);
+          this.toastr.warning(action.description, action.title);
         })
       ),
     { dispatch: false }
@@ -33,7 +40,7 @@ export class CounterEffects {
       this.actions$.pipe(
         ofType(displayError),
         tap(action => {
-          this.toastr.error(action.title, action.description);
+          this.toastr.error(action.description, action.title);
         })
       ),
     { dispatch: false }
@@ -53,7 +60,7 @@ export class CounterEffects {
 
   decrement$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(increment),
+      ofType(decrement),
       map(action =>
         displayError({
           title: "Decrement",
@@ -63,9 +70,9 @@ export class CounterEffects {
     )
   );
 
-reset$ = createEffect(() =>
+  reset$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(increment),
+      ofType(reset),
       map(action =>
         displayWarning({
           title: "Reseted",
@@ -73,7 +80,7 @@ reset$ = createEffect(() =>
         })
       )
     )
-  );  
+  );
 
   constructor(private actions$: Actions, private toastr: ToastrService) {}
 }
