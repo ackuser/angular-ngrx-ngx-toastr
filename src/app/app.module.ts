@@ -21,7 +21,7 @@ import { ToastrModule } from "ngx-toastr";
     EffectsModule.forRoot([CounterEffects]),
     ToastrModule.forRoot({
       positionClass: "toast-bottom-full-width",
-      preventDuplicates: true
+      //preventDuplicates: true
     }),
     StoreModule.forRoot({ count: counterReducer })
   ],
